@@ -101,7 +101,7 @@ class SNTPServer:
             try:
                 packet, address = self.received.get(block=False)
             except queue.Empty:
-                return
+                pass
             else:
                 if packet:
                     self.server.sendto(bytes(packet), address)
