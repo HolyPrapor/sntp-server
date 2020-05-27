@@ -140,7 +140,7 @@ def main(argv):
     args = parse_args(argv[1:])
     global OFFSET
     OFFSET = args.offset
-    server = UdpServer(args.port)
+    server = SNTPServer(args.port)
     try:
         server.start()
     except KeyboardInterrupt:
