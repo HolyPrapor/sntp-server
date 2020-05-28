@@ -48,7 +48,7 @@ class SNTPPacket:
                            self.ref_timestamp,
                            self.orig_timestamp,
                            SNTPPacket.format_time(
-                               self.receive_timestamp + OFFSET),
+                               self.transmit_timestamp + OFFSET),
                            SNTPPacket.format_time(
                                time.time() + SYSTEM_NTP_DIFFERENCE + OFFSET)
                            )
@@ -61,9 +61,9 @@ class SNTPPacket:
         mode = packet[0] & 7
         if mode != 3:
             return None
-        transmit_timestamp = int.from_bytes(packet[40:48], 'big')
-        return SNTPPacket(version, 4, transmit_timestamp,
-                          int(time.time() + SYSTEM_NTP_DIFFERENCE))
+        original_timestamp = int.from_bytes(packet[40:48], 'big')
+        transmit_timestamp = int(time.time() + SYSTEM_NTP_DIFFERENCE)
+        return SNTPPacket(version, 4, transmit_timestamp, original_timestamp)
 
     @classmethod
     def format_time(cls, timestamp):
